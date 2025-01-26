@@ -1,0 +1,125 @@
+@using AngleSharp.Text
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers
+@using Microsoft.AspNetCore.Html
+@model FieldComponent
+
+@inject IHtmlGenerator HtmlGenerator
+@inject ICompositeViewEngine CompositeViewEngine
+@inject IViewBufferScope ViewBufferScope
+
+@{
+    var inputName = ViewData.TemplateInfo.GetFullHtmlFieldName(Model.For.Name);
+    var inputId = Html.GenerateIdFromName(inputName);
+    
+    var requiredCssClasses = Model.RequiredCssClass ?? "required";
+
+    var fieldHtmlHelper = new HtmlHelper(HtmlGenerator, CompositeViewEngine, Model.For.Metadata, ViewBufferScope, HtmlEncoder, Html.UrlEncoder);
+    fieldHtmlHelper.Contextualize(ViewContext);
+
+    var attributes = Model.AllAttributes.Where(a => a.Name.First().IsLowercaseAscii()).ToDictionary(a => a.Name, a => a.Value);
+    attributes["required"] = Model.IsRequiredByModel();
+
+    var inputType = Model.Type switch {
+            not null and var type => type,
+            _ => "text"
+            };
+
+    var tagBuilder = Model.Type switch {
+            // radio button groups render a totally different HTML see below
+            "select" => () => {
+                var selectCssClasses = Model.InputCssClasses ?? "select-bordered";
+                attributes["class"] = $"select w-full select-sm {selectCssClasses}";
+
+                return HtmlGenerator.GenerateSelect(
+                        ViewContext,
+                        Model.For.ModelExplorer,
+                        null,
+                        Model.For.Name,
+                        fieldHtmlHelper.GetEnumSelectList(Model.For.Metadata.ModelType),
+                        false,
+                        attributes);
+
+            },
+            "textarea" => () => {
+                var textAreaCssClasses = Model.InputCssClasses ?? "textarea-bordered";
+
+                attributes["rows"] = 3;
+                attributes["class"] = $"textarea w-full textarea-sm {textAreaCssClasses}";
+                return fieldHtmlHelper.TextArea(Model.For.Name, (string)Model.For.Model, attributes);
+            },
+            _ => new Func<IHtmlContent>(() => {
+                var inputCssClasses = Model.InputCssClasses ?? "input-bordered";
+
+                attributes["class"] = $"input w-full input-sm validator {inputCssClasses}";
+                attributes["type"] = inputType;
+                return fieldHtmlHelper.TextBox(Model.For.Name, Model.For.Model, null, attributes);
+            })};
+}
+
+
+@switch (Model.Type)
+{
+    case "radio" or "radio-h":
+        <fieldset zyrrio-attributes="attributes">
+            <legend class="label label-text">@Model.For.ModelExplorer.Metadata.DisplayName</legend>
+            <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                @* Uses checked:bg-primary *@
+                @Html.Raw(Model.ChildContent)
+            </div>
+            @HtmlGenerator.GenerateValidationMessage(ViewContext, Model.For.ModelExplorer, Model.For.Name, null, "span", new
+            {
+                Class = "label-text-alt text-error-content"
+            })
+        </fieldset>
+        break;
+    case "radio-v":
+        <fieldset zyrrio-attributes="attributes">
+            <legend class="label label-text">@Model.For.ModelExplorer.Metadata.DisplayName</legend>
+            <div class="space-y-2">
+                @* Uses checked:bg-primary *@
+                @Html.Raw(Model.ChildContent)
+            </div>
+            @HtmlGenerator.GenerateValidationMessage(ViewContext, Model.For.ModelExplorer, Model.For.Name, null, "span", new
+            {
+                Class = "label-text-alt text-error-content"
+            })
+        </fieldset>
+        break;
+    case "joined":
+        <fieldset zyrrio-attributes="attributes">
+            <legend class="label @requiredCssClasses"><span class="label-text">@Model.For.ModelExplorer.Metadata.DisplayName</span></legend>
+            <div class="join join-horizontal">
+                @Html.Raw(Model.ChildContent)
+            </div>
+
+            @foreach (var validationFor in Model.DisplayValidationsFor)
+            {
+                @HtmlGenerator.GenerateValidationMessage(ViewContext, validationFor.ModelExplorer, validationFor.Name, null, "div", new
+                {
+                    Class = "label-text-alt text-error-content pt-2"
+                })
+            }
+        </fieldset>
+        break;
+    default:
+    {
+        <label class="input @Model.FieldCssClasses">
+            <span class="label">@(Model.Label ?? Model.For.ModelExplorer.Metadata.DisplayName)</span>
+
+
+            @if (!string.IsNullOrWhiteSpace(Model.ChildContent))
+            {
+                @Html.Raw(Model.ChildContent)
+            }
+            else
+            {
+                @tagBuilder()
+            }
+        </label>
+        <div class="validator-hint">
+            @HtmlGenerator.GenerateValidationMessage(ViewContext, Model.For.ModelExplorer, Model.For.Name, null, "span", null)
+        </div>
+        break;
+    }
+}

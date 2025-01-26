@@ -1,0 +1,33 @@
+@page
+@using Microsoft.EntityFrameworkCore
+@model DealPage
+
+@{
+    ViewBag.Title = "Deals";
+    Layout = "_Layout";
+}
+
+<form method="post">
+    <zyrrio-field-set header="Common" description="Deal" class="flex flex-col">
+        <zyrrio-field asp-for="Input.Name" label="Name" />
+        <zyrrio-field asp-for="Input.Price" label="Price"/>
+        <button type="submit" class="btn btn-primary">Speichern</button>
+    </zyrrio-field-set>
+</form>
+
+<h2>Deals</h2>
+<table class="table">
+    <thead>
+    <th>Name</th>
+    <th>Price</th>
+    </thead>
+    <tbody>
+    @foreach (var deals in Model.Deals)
+    {
+        <tr>
+            <td>@deals.Name</td>
+            <td>@deals.Price.ToString("#.00 €")</td>
+        </tr>
+    }
+    </tbody>
+</table>

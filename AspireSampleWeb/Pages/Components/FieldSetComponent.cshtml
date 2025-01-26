@@ -1,0 +1,17 @@
+﻿@model FieldSetComponent
+
+<fieldset disabled="@Model.Disabled">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <legend class="text-base leading-7 font-semibold">@Model.Header</legend>
+                <p class="mt-1 text-sm text-neutral-content">
+                    @Model.Description
+                </p>
+            </div>
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="flex flex-col items-start space-y-2">
+                    @Html.Raw(Model.ChildContent)
+                </div>
+            </div>
+        </div>
+</fieldset>
