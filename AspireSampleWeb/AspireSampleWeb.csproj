@@ -14,12 +14,7 @@
     <ItemGroup>
       <PackageReference Include="Acmion.CshtmlComponent" Version="4.1.0" />
       <PackageReference Include="AngleSharp" Version="1.2.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Pages\Components\FieldComponent.cshtml" />
-      <AdditionalFiles Include="Pages\Components\FieldSetComponent.cshtml" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
     </ItemGroup>
 
 </Project>
