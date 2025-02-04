@@ -1,8 +1,8 @@
 {
 	"dependencies": {
-		"@tailwindcss/cli": "^4.0.0",
+		"@tailwindcss/cli": "^4.0.3",
 		"daisyui": "5.0.0-beta.2",
-		"tailwindcss": "^4.0.0"
+		"tailwindcss": "^4.0.3"
 	},
 	"scripts": {
 		"watch": "pnpm dlx @tailwindcss/cli -i ./css/app.css -o ./wwwroot/css/output.css --watch"
