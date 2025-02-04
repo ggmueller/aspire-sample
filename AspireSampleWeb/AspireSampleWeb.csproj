@@ -14,7 +14,14 @@
     <ItemGroup>
       <PackageReference Include="Acmion.CshtmlComponent" Version="4.1.0" />
       <PackageReference Include="AngleSharp" Version="1.2.0" />
+      <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Polly.Core">
+        <HintPath>..\..\..\.nuget\packages\polly.core\8.4.2\lib\net8.0\Polly.Core.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

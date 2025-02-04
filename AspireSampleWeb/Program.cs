@@ -1,21 +1,25 @@
-using Acmion.CshtmlComponent;
 using AspireSampleWeb.Crm;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+using AspireSampleWeb.Infrastructure.Web;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped<ICshtmlComponentTracker, CshtmlComponentTracker>();
-builder.Services.AddScoped<ITagHelperComponent, CshtmlComponentInjectionContentHandler>();
-builder.Services.AddScoped<ICshtmlComponentInjectionContentStore, CshtmlComponentInjectionContentStore>();
+builder.AddCshtmlComponents();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<CrmContext>(o => o.UseSqlite("Data Source=Crm.db", sqlite => 
-    sqlite
-    .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
-builder.Services.AddHostedService<CreateDatabaseService>();
+// builder.Services.AddDbContext<CrmContext>(o => o.UseSqlite("Data Source=Crm.db", dbContextOptions => 
+//     dbContextOptions
+//     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+
+builder.AddNpgsqlDbContext<CrmContext>("db", configureDbContextOptions: options => options
+        .UseNpgsql(dbContextOptions =>
+        dbContextOptions
+            .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+            .EnableRetryOnFailure()));
+
+builder.Services.AddHostedService<CreateDatabaseBackgroundService>();
 
 var app = builder.Build();
 
@@ -28,9 +32,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapRazorPages();
