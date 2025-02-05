@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_02_Simple", "Prepared\02\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_03_Postgres", "Prepared\03\Postgres\_03_Postgres.csproj", "{6D1D09AC-4E0E-435C-AE14-A168841A35E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceDefaults", "ServiceDefaults\ServiceDefaults.csproj", "{81E98319-E864-4B66-AF9A-02723E008B36}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_04_Container", "Prepared\04\Postgres\_04_Container.csproj", "{2E93F471-5ECA-4498-BE83-93315F211C0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{521E3043-F879-4614-B187-E9FB5BF49E81}"
@@ -38,6 +40,10 @@ Global
 		{6D1D09AC-4E0E-435C-AE14-A168841A35E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D1D09AC-4E0E-435C-AE14-A168841A35E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D1D09AC-4E0E-435C-AE14-A168841A35E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E98319-E864-4B66-AF9A-02723E008B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E98319-E864-4B66-AF9A-02723E008B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E98319-E864-4B66-AF9A-02723E008B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E98319-E864-4B66-AF9A-02723E008B36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E93F471-5ECA-4498-BE83-93315F211C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E93F471-5ECA-4498-BE83-93315F211C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E93F471-5ECA-4498-BE83-93315F211C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
