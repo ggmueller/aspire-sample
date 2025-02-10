@@ -51,7 +51,7 @@
             _ => new Func<IHtmlContent>(() => {
                 var inputCssClasses = Model.InputCssClasses ?? "input-bordered";
 
-                attributes["class"] = $"input w-full input-sm validator {inputCssClasses}";
+                attributes["class"] = $"validator {inputCssClasses}";
                 attributes["type"] = inputType;
                 return fieldHtmlHelper.TextBox(Model.For.Name, Model.For.Model, null, attributes);
             })};
