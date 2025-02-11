@@ -9,9 +9,9 @@ builder.AddServiceDefaults();
 builder.AddCshtmlComponents();
 builder.Services.AddRazorPages();
 
-// builder.Services.AddDbContext<CrmContext>(o => o.UseSqlite("Data Source=Crm.db", dbContextOptions => 
-//     dbContextOptions
-//     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+builder.Services.AddDbContext<CrmContext>(o => o.UseSqlite("Data Source=Crm.db", dbContextOptions => 
+    dbContextOptions
+    .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 // builder.AddNpgsqlDbContext<CrmContext>("sampledb", configureDbContextOptions: options => options
 //         .UseNpgsql(dbContextOptions =>
@@ -20,10 +20,10 @@ builder.Services.AddRazorPages();
 //             .EnableRetryOnFailure()));
 
 #region DatabaseWithoutAspire
-builder.Services.AddDbContext<CrmContext>((sp, options) => options
-    .UseNpgsql(GetConnectionString(sp), dbContextOptions =>
-        dbContextOptions
-            .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+// builder.Services.AddDbContext<CrmContext>((sp, options) => options
+//     .UseNpgsql(GetConnectionString(sp), dbContextOptions =>
+//         dbContextOptions
+//             .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 #endregion
 
 builder.Services.AddHostedService<CreateDatabaseBackgroundService>();
