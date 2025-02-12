@@ -21,7 +21,9 @@ public class IntegrationTest : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AspireSampleWeb>();
-
+        // _app = await _appHost.BuildAsync();
+        // await _app.StartAsync();
+        // _httpClient = _app.CreateHttpClient("sample");
         var webProject = _appHost.Resources.First(r => r.Name == "sample");
 
         _appHost.Resources.Remove(webProject);
@@ -32,11 +34,8 @@ public class IntegrationTest : IAsyncLifetime
 
         _app = await _appHost.BuildAsync();
         await _app.StartAsync();
-        
-        // _httpClient = _app.CreateHttpClient("sample");
 
         await WaitForDatabaseReady();
-        
         
         var webApplicationConfiguration = 
             await webProject.LoadConfigurationAsync(_app.Services);
